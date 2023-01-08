@@ -21,7 +21,7 @@ After intalling the project you need to execute the project in order to use the 
 ## What you need to know
 
 You need to add the email username in the variables shown below:
-//photos or code to be added
+![image](https://user-images.githubusercontent.com/73954017/211196437-255e25e9-71f3-481e-945b-57157012fe08.png)
 
 The email of the sender should have the two-step authentification turned on and it should have a generated app password to succesfully run the code
 ![image](https://user-images.githubusercontent.com/73954017/211196185-2fc929dc-c487-44aa-bbeb-9dc2144ce9ee.png)
