@@ -76,7 +76,15 @@ namespace WifiPassword
 
             private static string RunCommand(string command, string arguments)
             {
-
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = command,
+                        Arguments = arguments,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    }
+                };
             }
         
     }
