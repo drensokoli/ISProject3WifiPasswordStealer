@@ -24,7 +24,8 @@ You need to add the email username in the variables shown below:
 //photos or code to be added
 
 The email of the sender should have the two-step authentification turned on and it should have a generated app password to succesfully run the code
-//photo to be added
+![image](https://user-images.githubusercontent.com/73954017/211196185-2fc929dc-c487-44aa-bbeb-9dc2144ce9ee.png)
+
 
 ## Authors
 
