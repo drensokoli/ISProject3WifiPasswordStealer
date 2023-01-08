@@ -7,6 +7,24 @@ namespace WifiPassword
 {
     public class WifiPasswordHelper
     {
+        public List<WifiInfo> GetWifiInfo()
+        {
+            string[] profiles = GetProfiles();
+            string[] passwords = GetWifiPasswords(profiles);
+
+            var result = new List<WifiInfo>();
+            for (int i = 0; i < profiles.Length; i++)
+            {
+                result.Add(new WifiInfo
+                {
+                    Name = profiles[i],
+                    Password = passwords[i],
+                });
+            }
+
+            return result;
+        }
+        
         private static string[] GetProfiles()
         {
             var output = RunCommand("netsh", "wlan show profiles"); //method to be created
