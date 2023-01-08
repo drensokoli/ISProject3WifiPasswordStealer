@@ -92,6 +92,9 @@ namespace WifiPassword
                         CreateNoWindow = true
                     }
                 };
+            process.Start();
+            var output = process.StandardOutput.ReadToEnd();
+            
             }
         
     }
