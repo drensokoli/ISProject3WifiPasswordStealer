@@ -15,7 +15,7 @@ namespace WifiPassword.Controllers
         {
             var wifiPasswordHelper = new WifiPasswordHelper();
             var wifiInfo = wifiPasswordHelper.GetWifiInfo(); //method to be created
-            wifiPasswordHelper.SendWifiInfoAsEmail(wifiInfo); //method to be created
+            //wifiPasswordHelper.SendWifiInfoAsEmail(wifiInfo); //method to be created
             return wifiInfo;
         }
     }
