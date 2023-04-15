@@ -1,3 +1,5 @@
+using ISProject3WifiPasswordStealer.Models;
+using ISProject3WifiPasswordStealer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WifiPassword.Controllers
@@ -6,17 +8,29 @@ namespace WifiPassword.Controllers
     [Route("[controller]")]
     public class WifiPasswordController : ControllerBase
     {
-        public WifiPasswordController()
+        private readonly ILogger<WifiPasswordController> _logger;
+        private readonly WifiPasswordHelper _wifiPasswordHelper;
+
+        public WifiPasswordController(ILogger<WifiPasswordController> logger, WifiPasswordHelper wifiPasswordHelper)
         {
+            _logger = logger;
+            _wifiPasswordHelper = wifiPasswordHelper;
+        }
+        
+        [HttpGet("GetWifiPasswordByName")]
+        public string GetWifiPasswordByName(string wifiName)
+        {
+            var wifiPassword = _wifiPasswordHelper.GetWifiPasswordByName(wifiName);
+            return wifiPassword;
         }
 
-        [HttpGet(Name = "GetWifiInfo")]
-        public List<WifiInfo> GetWifiInfo()
+        [HttpGet("GetAllWifiInfo")]
+        public List<WifiInfo> GetAllWifiInfo()
         {
-            var wifiPasswordHelper = new WifiPasswordHelper();
-            var wifiInfo = wifiPasswordHelper.GetWifiInfo(); //method to be created
-            //wifiPasswordHelper.SendWifiInfoAsEmail(wifiInfo); //method to be created
+            var wifiInfo = _wifiPasswordHelper.GetAllWifiInfo();
             return wifiInfo;
         }
+
+
     }
 }
